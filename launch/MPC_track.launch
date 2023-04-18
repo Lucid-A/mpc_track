@@ -1,0 +1,44 @@
+<launch>
+    <arg name="L" value="0.2"/>
+    <arg name="freq" value="20"/>
+    <arg name="prediction_horizon" value="25"/> 
+    <!--controller node-->
+    <node pkg="mpc_track" type="MPC_node" name="MPC_node" output="screen">
+        <!--Basic vehicle information--><!--kesi is the Vehicle front wheel deflection angle-->
+        <param name="L" value="$(arg L)"/><!--Vehicle wheelbase-->
+        <param name="V_DESIRED" value="0.5"/>
+
+        <!--car initial state-->
+        <param name="initial_x" value="-0.127"/>
+        <param name="initial_y" value="-0.1474"/>
+        <param name="initial_yaw" value="0.0138"/>
+	<param name="initial_v" value="0.0"/>
+        <param name="initial_kesi" value="0.0"/>
+
+        <!--controller information-->
+        <param name="freq" value="$(arg freq)"/><!--control freq-->
+        <param name="slow_LEVE1_DISTANCE" value="1.5"/><!--First stage deceleration distance-->
+        <param name="slow_LEVE2_DISTANCE" value="0.75"/><!--Secondary deceleration distance-->
+        <param name="goal_tolerance_DISTANCE" value="0.05"/><!--Tracking stop distance-->
+        <param name="slow_LEVE1_V" value="0.3"/>
+        <param name="slow_LEVE2_V" value="0.15"/>
+        <param name="limit_v_and_kesi" value="true"/><!--If it is an akaman steering car, it must be limited. If it is an omni-directional car, it is optional-->
+	<param name="prediction_horizon" value="$(arg prediction_horizon)"/><!--prediction horizon-->
+    </node>
+    <!--optimizer server-->
+    <node pkg="mpc_track" type="mpc_optimizer.py" name="MPC_optimizer" output="screen">
+	<!--Basic vehicle information-->
+	<param name="L" value="$(arg L)"/>
+	<!--controller information-->
+	<param name="freq" value="$(arg freq)"/><!--control freq-->
+	<param name="prediction_horizon" value="$(arg prediction_horizon)"/><!--prediction horizon-->
+	<param name="MAX_VEL_delta" value="0.2"/><!--max speed delta-->
+	<param name="MAX_ANGULAR_delta" value="1.5"/><!--max angular velocity-->
+	<param name="MAX_DSTEER" value="45"/><!--max front wheel deflection angle delta, Angle system-->
+	<rosparam param="Q_set">[100,100,10]</rosparam><!--State weight matrix Q = diag{Q1,Q2,Q3}-->
+	<rosparam param="R_set">[0.1,0.1]</rosparam><!--Control input weight matrix R = diag{R1,R2}-->
+    </node>
+
+    <!--rviz-->
+    <node name="mpc_track_rviz" pkg="rviz" type="rviz" required="true" args="-d $(find mpc_track)/rviz/track.rviz"/>
+</launch>
