@@ -127,10 +127,10 @@ include_directories(
 
 ## Declare a C++ library
 add_library(MPC_LIBRARIES
-  /home/cute/catkin_ws/src/mpc_track/include/mpc_track/Tool.h
-  /home/cute/catkin_ws/src/mpc_track/src/Tool.cpp
-  /home/cute/catkin_ws/src/mpc_track/include/mpc_track/trajectory.h
-  /home/cute/catkin_ws/src/mpc_track/src/trajectory.cpp
+  ~/testmpc_ws/src/mpc_track/include/mpc_track/Tool.h
+  ~/testmpc_ws/src/mpc_track/src/Tool.cpp
+  ~/testmpc_ws/src/mpc_track/include/mpc_track/trajectory.h
+  ~/testmpc_ws/src/mpc_track/src/trajectory.cpp
 )
 
 target_link_libraries(MPC_LIBRARIES ${catkin_LIBRARIES})
