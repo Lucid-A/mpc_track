@@ -29,7 +29,7 @@ vehicleState update_state(U control, vehicleState car) {
 	car.kesi = control.kesi;
 	car.x += car.v * cos(car.yaw) * T;
 	car.y += car.v * sin(car.yaw) * T;
-	car.yaw += car.v / L * tan(car.kesi) * T;
+	car.yaw += car.kesi * T;
 	return car;
 }
  
@@ -233,7 +233,7 @@ public:
 			uu.v = v_judge;
 			//接着计算对应的前轮转角参考量
 			double K = cal_K(path->Get_waypoints(),local_path[i].ID);//计算曲率
-			uu.kesi = atan2(L * K, 1);
+			uu.kesi = uu.v * K;
 			control_reference.push_back(uu);
 			//ROS_INFO("the v_desired is %f\nthe kesi_desired is %f\n",uu.v, uu.kesi);
 		}

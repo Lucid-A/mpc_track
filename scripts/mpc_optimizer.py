@@ -26,7 +26,7 @@ def state_space(control_ref, ref_yaw):
     B = np.matrix([
         [dt * math.cos(ref_yaw), 0],
         [dt * math.sin(ref_yaw), 0],
-        [dt * math.tan(ref_delta), v_d * dt / (L * math.cos(ref_delta) * math.cos(ref_delta))]
+        [0, dt]
     ])
     return A, B
 
