@@ -1,3 +1,5 @@
+原仓库地址：[MPC Track - Bitbucket](https://bitbucket.org/ros-code/mpc_track/src/master/)
+
 一：仿真功能使用
 
 1.将该功能包放在工作空间XXX_ws的src下
